@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
 
 import styles from './popularjobs.style'
@@ -15,6 +15,13 @@ const Popularjobs = () => {
         query: 'React developer',
         num_pages:1
     })
+
+    const [selectedJob,setSelectJob] = useState()
+
+    const handleCardPress = (item) => {
+        router.push(`/job-details/${item.job_id}`)
+        setSelectJob(item.job_id)
+    }
 
     console.log(data)
 
@@ -36,7 +43,7 @@ const Popularjobs = () => {
                     <FlatList
                         data={data}
                         renderItem={({item})=>(
-                            <PopularJobCard item={item}/>
+                            <PopularJobCard item={item} selectedJob={selectedJob} handleCardPress={handleCardPress}/>
                         )}
                         keyExtractor={item => item?.job_id}
                         contentContainerStyle={{columnGap:SIZES.medium}}
